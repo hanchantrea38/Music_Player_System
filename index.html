@@ -3,51 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pulse Music Player</title>
+    <meta name="theme-color" content="#0c0c0f">
+    <title>Pulse Music</title>
     <link rel="icon" href="./images/logo-pm.png" type="image/png">
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Khmer:wght@400;600;700&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
-    <div class="app-shell">
+    <div class="app">
         <aside class="sidebar">
             <div class="brand">
                 <img src="./images/logo-pm.png" alt="Pulse Music logo">
-                <div>
-                    <span>Pulse</span>
-                    <strong>Music</strong>
+                <div class="brand-text">
+                    <strong>Pulse</strong>
+                    <span>Music</span>
                 </div>
             </div>
 
             <nav class="nav-menu" aria-label="Main navigation">
-                <button class="nav-link active" data-section="library">
+                <span class="nav-label">Menu</span>
+                <button class="nav-link active" data-section="library" title="Library">
                     <i class="fa-solid fa-compact-disc"></i>
                     <span>Library</span>
                 </button>
-                <button class="nav-link" data-section="playlists">
+                <button class="nav-link" data-section="playlists" title="Playlists">
                     <i class="fa-solid fa-list-ul"></i>
                     <span>Playlists</span>
                 </button>
-                <button class="nav-link" data-section="upload">
+                <button class="nav-link" data-section="upload" title="Upload">
                     <i class="fa-solid fa-cloud-arrow-up"></i>
                     <span>Upload</span>
                 </button>
-                <button class="nav-link" data-section="lyrics">
+                <button class="nav-link" data-section="lyrics" title="Lyrics">
                     <i class="fa-solid fa-align-left"></i>
                     <span>Lyrics</span>
                 </button>
-                <button class="nav-link" data-section="settings">
+                <button class="nav-link" data-section="settings" title="Settings">
                     <i class="fa-solid fa-sliders"></i>
                     <span>Settings</span>
                 </button>
             </nav>
 
-            <div class="sidebar-panel">
-                <span class="eyebrow">Collection</span>
+            <div class="sidebar-card">
+                <span class="nav-label">Collection</span>
                 <div class="stat-line">
                     <strong id="sidebar-song-count">0</strong>
-                    <span>Songs ready</span>
+                    <span>Songs</span>
                 </div>
                 <div class="stat-line">
                     <strong id="sidebar-artist-count">0</strong>
@@ -64,89 +68,72 @@
             </div>
         </aside>
 
-        <main class="main-content">
+        <main class="main">
             <header class="topbar">
-                <div>
-                    <span class="eyebrow">Pulse Music Studio</span>
-                    <h1>Play, store, and feel every track.</h1>
+                <div class="topbar-title">
+                    <span class="eyebrow" id="section-eyebrow">Browse</span>
+                    <h1 id="section-title">Library</h1>
                 </div>
-                <label class="search-box" aria-label="Search music">
+                <label class="search-box">
                     <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="search" id="search-input" placeholder="Search songs, artists, albums...">
+                    <input type="search" id="search-input" placeholder="Search songs, artists, albums" aria-label="Search music">
+                    <kbd>/</kbd>
                 </label>
             </header>
 
-            <section class="dashboard-strip" aria-label="Library overview">
-                <div class="metric-card">
-                    <i class="fa-solid fa-music"></i>
-                    <span>Total Tracks</span>
-                    <strong id="metric-total-tracks">0</strong>
-                </div>
-                <div class="metric-card">
-                    <i class="fa-solid fa-box-archive"></i>
-                    <span>Stored Songs</span>
-                    <strong id="metric-stored-tracks">0</strong>
-                </div>
-                <div class="metric-card">
-                    <i class="fa-solid fa-shield-halved"></i>
-                    <span>Vault Uploads</span>
-                    <strong id="metric-vault-tracks">0</strong>
-                </div>
-            </section>
-
-            <section class="section-view active" id="library-section">
-                <div class="player-hero">
-                    <div class="cover-wrap">
-                        <span class="cover-badge"><i class="fa-solid fa-wave-square"></i> Live mix</span>
+            <section class="view active" id="library-section">
+                <div class="hero">
+                    <div class="hero-backdrop" id="hero-backdrop" aria-hidden="true"></div>
+                    <div class="hero-cover">
                         <img src="./images/logo-pm.png" alt="Album art" id="album-art">
-                        <canvas id="visualizer" width="520" height="120" aria-hidden="true"></canvas>
                     </div>
-
-                    <div class="player-details">
-                        <span class="now-label" id="play-state">Paused</span>
+                    <div class="hero-info">
+                        <span class="now-label">
+                            <span class="live-dot"></span>
+                            <span id="play-state">Paused</span>
+                            <span class="dot-sep">&middot;</span>
+                            <span id="play-context">Library</span>
+                        </span>
                         <h2 id="song-title">Choose a track</h2>
                         <p id="song-artist">Your queue is loaded and ready.</p>
-                        <div class="song-meta-row">
-                            <span><i class="fa-solid fa-compact-disc"></i> High quality</span>
-                            <span><i class="fa-solid fa-bolt"></i> Instant play</span>
-                            <span><i class="fa-solid fa-heart"></i> Favorite ready</span>
-                        </div>
-
-                        <div class="progress-area">
-                            <input type="range" id="progress-slider" min="0" max="1000" value="0" aria-label="Song progress">
-                            <div class="time-row">
-                                <span id="current-time">0:00</span>
-                                <span id="total-time">0:00</span>
-                            </div>
-                        </div>
-
-                        <div class="controls" aria-label="Player controls">
-                            <button class="icon-btn" id="shuffle-btn" title="Shuffle">
-                                <i class="fa-solid fa-shuffle"></i>
-                            </button>
-                            <button class="icon-btn" id="prev-btn" title="Previous">
-                                <i class="fa-solid fa-backward-step"></i>
-                            </button>
-                            <button class="play-btn" id="play-btn" title="Play">
+                        <div class="hero-actions">
+                            <button class="btn btn-primary" id="hero-play-btn">
                                 <i class="fa-solid fa-play"></i>
+                                <span>Play</span>
                             </button>
-                            <button class="icon-btn" id="next-btn" title="Next">
-                                <i class="fa-solid fa-forward-step"></i>
-                            </button>
-                            <button class="icon-btn" id="repeat-btn" title="Repeat">
-                                <i class="fa-solid fa-repeat"></i>
-                            </button>
-                        </div>
-
-                        <div class="utility-row">
-                            <button class="soft-btn" id="favorite-btn">
+                            <button class="btn btn-ghost" id="favorite-btn">
                                 <i class="fa-regular fa-heart"></i>
                                 <span>Favorite</span>
                             </button>
-                            <label class="volume-control">
-                                <i class="fa-solid fa-volume-high"></i>
-                                <input type="range" id="volume-slider" min="0" max="100" value="80" aria-label="Volume">
-                            </label>
+                            <button class="btn btn-ghost" id="hero-lyrics-btn">
+                                <i class="fa-solid fa-align-left"></i>
+                                <span>Lyrics</span>
+                            </button>
+                        </div>
+                        <canvas id="visualizer" aria-hidden="true"></canvas>
+                    </div>
+                </div>
+
+                <div class="stats-strip" aria-label="Library overview">
+                    <div class="metric-card">
+                        <i class="fa-solid fa-music"></i>
+                        <div>
+                            <span>Total tracks</span>
+                            <strong id="metric-total-tracks">0</strong>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <i class="fa-solid fa-box-archive"></i>
+                        <div>
+                            <span>On your shelf</span>
+                            <strong id="metric-stored-tracks">0</strong>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        <div>
+                            <span>Vault uploads</span>
+                            <strong id="metric-vault-tracks">0</strong>
                         </div>
                     </div>
                 </div>
@@ -155,13 +142,20 @@
                     <section class="panel">
                         <div class="panel-heading">
                             <div>
-                                <span class="eyebrow">Library</span>
-                                <h3>Store Songs</h3>
+                                <h3>All Songs</h3>
+                                <span class="panel-sub" id="track-count">0 songs</span>
                             </div>
-                            <button class="soft-btn compact" id="clear-filter-btn">
+                            <button class="btn btn-ghost btn-sm" id="clear-filter-btn" hidden>
                                 <i class="fa-solid fa-xmark"></i>
-                                <span>Reset</span>
+                                <span>Clear search</span>
                             </button>
+                        </div>
+                        <div class="track-head" aria-hidden="true">
+                            <span>#</span>
+                            <span>Title</span>
+                            <span class="col-album">Album</span>
+                            <span class="col-time"><i class="fa-regular fa-clock"></i></span>
+                            <span></span>
                         </div>
                         <div class="track-list" id="track-list"></div>
                     </section>
@@ -169,8 +163,8 @@
                     <section class="panel">
                         <div class="panel-heading">
                             <div>
-                                <span class="eyebrow">Shelf</span>
                                 <h3>Stored Music</h3>
+                                <span class="panel-sub" id="shelf-count">Your personal shelf</span>
                             </div>
                         </div>
                         <div class="stored-shelf" id="mix-list"></div>
@@ -178,31 +172,18 @@
                 </div>
             </section>
 
-            <section class="section-view" id="playlists-section">
-                <div class="section-heading">
-                    <span class="eyebrow">Saved sets</span>
-                    <h2>Playlists</h2>
-                </div>
+            <section class="view" id="playlists-section">
                 <div class="playlist-grid" id="playlist-grid"></div>
             </section>
 
-            <section class="section-view" id="upload-section">
-                <div class="section-heading">
-                    <div>
-                        <span class="eyebrow">Safe place</span>
-                        <h2>Music Vault</h2>
-                    </div>
-                    <button class="soft-btn compact" id="clear-vault-btn">
-                        <i class="fa-solid fa-trash-can"></i>
-                        <span>Clear Uploads</span>
-                    </button>
-                </div>
+            <section class="view" id="upload-section">
                 <label class="upload-zone" for="file-input" id="upload-zone">
-                    <i class="fa-solid fa-shield-halved"></i>
-                    <strong>Drop songs here to keep them in your safe vault</strong>
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                    <strong>Drop songs here or click to browse</strong>
                     <span>Uploaded songs are saved in this browser and stay after refresh.</span>
                     <input type="file" id="file-input" accept="audio/*" multiple>
                 </label>
+
                 <div class="vault-meter" aria-live="polite">
                     <div>
                         <strong id="vault-count">0 saved songs</strong>
@@ -212,46 +193,133 @@
                         <span id="vault-meter-fill"></span>
                     </div>
                 </div>
-                <div class="panel">
+
+                <section class="panel">
                     <div class="panel-heading">
                         <div>
-                            <span class="eyebrow">Protected library</span>
                             <h3>Saved Uploads</h3>
+                            <span class="panel-sub">Protected in your browser vault</span>
                         </div>
+                        <button class="btn btn-ghost btn-sm btn-danger" id="clear-vault-btn">
+                            <i class="fa-solid fa-trash-can"></i>
+                            <span>Clear uploads</span>
+                        </button>
                     </div>
                     <div class="track-list" id="uploaded-list"></div>
+                </section>
+            </section>
+
+            <section class="view" id="lyrics-section">
+                <div class="lyrics-box">
+                    <div class="lyrics-header">
+                        <img src="./images/logo-pm.png" alt="" id="lyrics-art">
+                        <div>
+                            <strong id="lyrics-title">Choose a track</strong>
+                            <span id="lyrics-artist"></span>
+                        </div>
+                    </div>
+                    <div class="lyrics-body" id="lyrics-box"></div>
                 </div>
             </section>
 
-            <section class="section-view" id="lyrics-section">
-                <div class="section-heading">
-                    <span class="eyebrow">Words</span>
-                    <h2>Lyrics</h2>
-                </div>
-                <div class="lyrics-box" id="lyrics-box"></div>
-            </section>
-
-            <section class="section-view" id="settings-section">
-                <div class="section-heading">
-                    <span class="eyebrow">Personalize</span>
-                    <h2>Settings</h2>
-                </div>
-                <div class="settings-grid">
+            <section class="view" id="settings-section">
+                <div class="settings-list">
+                    <div class="setting-card">
+                        <div class="setting-copy">
+                            <strong>Theme accent</strong>
+                            <span>Pick the highlight color used across the player.</span>
+                        </div>
+                        <div class="accent-options">
+                            <div class="swatches" id="accent-swatches"></div>
+                            <input type="color" id="accent-picker" value="#e1073b" aria-label="Custom accent color">
+                        </div>
+                    </div>
                     <label class="setting-card">
-                        <span>Theme accent</span>
-                        <input type="color" id="accent-picker" value="#e1073b">
+                        <div class="setting-copy">
+                            <strong>Autoplay next song</strong>
+                            <span>Keep the music going when a track ends.</span>
+                        </div>
+                        <span class="switch">
+                            <input type="checkbox" id="autoplay-toggle" checked>
+                            <span class="switch-thumb"></span>
+                        </span>
                     </label>
                     <label class="setting-card">
-                        <span>Autoplay next song</span>
-                        <input type="checkbox" id="autoplay-toggle" checked>
+                        <div class="setting-copy">
+                            <strong>Remember volume</strong>
+                            <span>Restore your volume level next time you open the player.</span>
+                        </div>
+                        <span class="switch">
+                            <input type="checkbox" id="remember-volume-toggle" checked>
+                            <span class="switch-thumb"></span>
+                        </span>
                     </label>
-                    <label class="setting-card">
-                        <span>Remember volume</span>
-                        <input type="checkbox" id="remember-volume-toggle" checked>
-                    </label>
+                    <div class="setting-card shortcuts">
+                        <div class="setting-copy">
+                            <strong>Keyboard shortcuts</strong>
+                            <span>Control playback without touching the mouse.</span>
+                        </div>
+                        <dl class="shortcut-list">
+                            <div><dt><kbd>Space</kbd></dt><dd>Play / pause</dd></div>
+                            <div><dt><kbd>&larr;</kbd> <kbd>&rarr;</kbd></dt><dd>Previous / next</dd></div>
+                            <div><dt><kbd>&uarr;</kbd> <kbd>&darr;</kbd></dt><dd>Volume</dd></div>
+                            <div><dt><kbd>M</kbd></dt><dd>Mute</dd></div>
+                            <div><dt><kbd>S</kbd> <kbd>R</kbd></dt><dd>Shuffle / repeat</dd></div>
+                            <div><dt><kbd>F</kbd></dt><dd>Favorite</dd></div>
+                            <div><dt><kbd>/</kbd></dt><dd>Search</dd></div>
+                        </dl>
+                    </div>
                 </div>
             </section>
         </main>
+
+        <footer class="player-bar" aria-label="Player">
+            <div class="bar-track">
+                <img src="./images/logo-pm.png" alt="" id="bar-art">
+                <div class="bar-copy">
+                    <strong id="bar-title">Choose a track</strong>
+                    <span id="bar-artist">Pulse Music</span>
+                </div>
+                <button class="icon-btn icon-btn-sm" id="bar-favorite-btn" title="Favorite">
+                    <i class="fa-regular fa-heart"></i>
+                </button>
+            </div>
+
+            <div class="bar-center">
+                <div class="controls">
+                    <button class="icon-btn" id="shuffle-btn" title="Shuffle (S)">
+                        <i class="fa-solid fa-shuffle"></i>
+                    </button>
+                    <button class="icon-btn" id="prev-btn" title="Previous">
+                        <i class="fa-solid fa-backward-step"></i>
+                    </button>
+                    <button class="play-btn" id="play-btn" title="Play">
+                        <i class="fa-solid fa-play"></i>
+                    </button>
+                    <button class="icon-btn" id="next-btn" title="Next">
+                        <i class="fa-solid fa-forward-step"></i>
+                    </button>
+                    <button class="icon-btn" id="repeat-btn" title="Repeat (R)">
+                        <i class="fa-solid fa-repeat"></i>
+                    </button>
+                </div>
+                <div class="progress-row">
+                    <span id="current-time">0:00</span>
+                    <input type="range" id="progress-slider" min="0" max="1000" value="0" step="1" aria-label="Song progress">
+                    <span id="total-time">0:00</span>
+                </div>
+            </div>
+
+            <div class="bar-right">
+                <button class="icon-btn icon-btn-sm" id="bar-lyrics-btn" title="Lyrics">
+                    <i class="fa-solid fa-align-left"></i>
+                </button>
+                <button class="icon-btn icon-btn-sm" id="mute-btn" title="Mute (M)">
+                    <i class="fa-solid fa-volume-high"></i>
+                </button>
+                <input type="range" id="volume-slider" min="0" max="100" value="80" aria-label="Volume">
+            </div>
+        </footer>
     </div>
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
